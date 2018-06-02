@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Activity的四种启动模式 | SongNing&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="因为要为了出去工作而准备面试了，所以有必要总结一下这一年多来学习Android的知识点，同时也能复习一下所学所得。有些虽然很基础，但有句老话叫“好记性不如烂笔头”。好了，废话不多说，就从基本的Activity启动模式开始。">
+<meta name="keywords" content="基础,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity的四种启动模式">
+<meta property="og:url" content="http://songning.me/2016/10/28/activity-launch-mode/index.html">
+<meta property="og:site_name" content="SongNing&#39;s Blog">
+<meta property="og:description" content="因为要为了出去工作而准备面试了，所以有必要总结一下这一年多来学习Android的知识点，同时也能复习一下所学所得。有些虽然很基础，但有句老话叫“好记性不如烂笔头”。好了，废话不多说，就从基本的Activity启动模式开始。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-04-02T03:35:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity的四种启动模式">
+<meta name="twitter:description" content="因为要为了出去工作而准备面试了，所以有必要总结一下这一年多来学习Android的知识点，同时也能复习一下所学所得。有些虽然很基础，但有句老话叫“好记性不如烂笔头”。好了，废话不多说，就从基本的Activity启动模式开始。">
+    
+
+    
+        <link rel="alternate" href="/" title="SongNing&#39;s Blog" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?de41d2ddbb3fb2445594130384270f32";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">SongNing&#39;s Blog</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">SongNing</h2>
+            <h3 id="title">Android Developer &amp; Designer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Guangzhou, China</span>
+            <a id="follow" target="_blank" href="https://github.com/finalrose7">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                7
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                11
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/finalrose7" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-activity-launch-mode" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Activity的四种启动模式
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/10/28/activity-launch-mode/">
+            <time datetime="2016-10-28T13:06:30.000Z" itemprop="datePublished">2016-10-28</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/source/categories/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/source/tags/基础/">基础</a>, <a class="tag-link" href="/source/tags/面试/">面试</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>因为要为了出去工作而准备面试了，所以有必要总结一下这一年多来学习Android的知识点，同时也能复习一下所学所得。有些虽然很基础，但有句老话叫“好记性不如烂笔头”。好了，废话不多说，就从基本的Activity启动模式开始。<a id="more"></a></p>
+<h2 id="设置Activity的启动模式"><a href="#设置Activity的启动模式" class="headerlink" title="设置Activity的启动模式"></a>设置Activity的启动模式</h2><p>怎么设置Activity的启动模式呢？有两种方法：</p>
+<ol>
+<li><p>在AndroidManifest.xml中，设置launchMode属性：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"@string/title_activity_second"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:launchMode</span>=<span class="string">"standard"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme.NoActionBar"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在启动Activity的时候，设置setFlags：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>,SecondActivity.class);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>两种设置模式的方法还是有区别的，按照惯例Java代码中的优先级肯定高于xml代码中的，如果两种都存在的话，以Java代码中的为准。另外在AndroidManifest.xml中无法设置FLAG_ACTIVITY_CLEAR_TOP标识，在Java代码中无法指定singleInstance模式。</p>
+<h2 id="四种模式"><a href="#四种模式" class="headerlink" title="四种模式"></a>四种模式</h2><h3 id="standard：标准模式"><a href="#standard：标准模式" class="headerlink" title="standard：标准模式"></a>standard：标准模式</h3><p>系统的默认模式，如果你没有设置启动模式的话就是这个模式。标准模式下的特点是每启动一个Activity都会重新创建一个新的实例，不管这个实例是否已经存在。被创建的Activity实例的生命周期正常调用，也就是onCreate、onStart、onResume都会被调用。</p>
+<p>在这种模式下，当我们多次启动同一个Activity的时候，系统就会创建多个实例并把他们一一放到任务栈中。任务栈是一种后进先出的结构，每当我们按一下返回键的时候，就会有一个Activity出栈。另外我发现微信有很多功能都是快速点击的话会创建多个Activity，比如快速点击两下朋友圈，就会创建两个朋友圈的Activity，我不知道这是微信有意为之还是程序员疏忽了这些细节问题。</p>
+<p>在<a href="http://item.jd.com/11760209.html" target="_blank" rel="noopener">《Android开发艺术探索》</a>提到，如果用ApplicationContext去启动一个Activity的话，会报错。像这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>,SecondActivity.class);</span><br><span class="line">App.getContext().startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>我试了下果然报了这个错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.util.AndroidRuntimeException: Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?</span><br></pre></td></tr></table></figure>
+<p>这是因为standard模式下的Activity会默认进入启动它的Activity所属的任务栈，但是直接用ApplicationContext去启动它的话并没有所谓的任务栈，所以报错了。解决这个问题的方法是为待启动的Activity一个标记位FLAG_ACTIVITY_NEW_TASK：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>,SecondActivity.class);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">App.getContext().startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>这样就可以正常启动了，这时系统为它创建了一个新的任务栈，并且是以standard模式启动的。</p>
+<h3 id="singleTop：栈顶复用模式"><a href="#singleTop：栈顶复用模式" class="headerlink" title="singleTop：栈顶复用模式"></a>singleTop：栈顶复用模式</h3><p>这种模式下，待启动的Activity如果位于任务栈的栈顶，那么就不会新建这个Activity的实例了。同时它的onNewIntent方法会被调用，我们可以在此方法取出当前请求信息。要注意的是，这个Activity的onCreate和onStart方法并不会被系统调用，因为它并没有发生改变。</p>
+<p>另外一种情况是，当这个Activity并不在任务栈的栈顶，这样的话新的Activity就会被以新实例的方式创建，onCreate、onStart、onResume都会被调用。</p>
+<h3 id="singleTask：栈内复用模式"><a href="#singleTask：栈内复用模式" class="headerlink" title="singleTask：栈内复用模式"></a>singleTask：栈内复用模式</h3><p>这种模式下，相当于单例模式。单例模式相信大家都懂，单例模式就是要确保某个类只有一个实例，而且自行实例化并向整个系统提供这个实例。</p>
+<p>Activity被创建出来，肯定需要一个任务栈，singleTask模式下启动此Activity首先需要判断有没有此Activity想要的任务栈，如果不存在就创建一个任务栈，并将此Activity压到栈中。如果任务栈已经存在，并且任务栈中也存在此Activity的实例，系统就会将此Activity调到栈顶，显示出来。也就是说，待启动的Activity在任务栈中如果已经存在，无论你启动多少次这个Activity都不会创建新的实例了，此时也会只调用onNewIntent方法。</p>
+<h3 id="singleInstance：单实例模式"><a href="#singleInstance：单实例模式" class="headerlink" title="singleInstance：单实例模式"></a>singleInstance：单实例模式</h3><p>这个模式可以理解为singleTask模式的加强版。此模式除了拥有singleTask模式所以的特性外，还有一点就是此模式的Activity只能单独的存在于一个任务栈中，由于栈内复用的特性，所以后续的请求均不会创建新的Activity实例了，除非这个任务栈被系统销毁了。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h3><p>标准模式，这个就不用多说了吧。</p>
+<h3 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h3><p>适合接收通知启动的内容显示页面。</p>
+<p>例如，某个新闻客户端的新闻内容页面，如果收到10个新闻推送，每次都打开一个新闻内容页面是很烦人的。</p>
+<h3 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h3><p>适合作为程序入口点。</p>
+<p>例如浏览器的主界面。不管从多少个应用启动浏览器，只会启动主界面一次，其余情况都会走onNewIntent方法，并且会清空主界面上面的其他页面。</p>
+<p>多处判断弹出登录界面。</p>
+<p>应用里面经常要根据服务器返回的用户登录状态来判断用户是否还在线，是否需要重新登录。但是当多个接口同时请求的时候，如果你的处理方式都是非在线状态下就会弹出登录的Activity，就会弹出很多个登录的Activity，用户体验很差。这时你可以将登录的Activity的launchMode设置为singleTask，就不会弹出多个同样的登录Activity了。然后就可以放心的在每个判断用户在线的地方启动登录的Activity了。</p>
+<h3 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h3><p>闹铃的响铃界面。</p>
+<p>你以前设置了一个闹铃：上午6点。在上午5点58分，你启动了闹铃设置界面，并按 Home 键回桌面，在上午5点59分时，你在微信和朋友聊天，在6点时，闹铃响了，并且弹出了一个对话框形式的 Activity(名为AlarmAlertActivity) 提示你到6点了(这个 Activity 就是以SingleInstance加载模式打开的)，你按返回键，回到的是微信的聊天界面。这是因为 AlarmAlertActivity所在的 Task 的栈只有他一个元素， 因此退出之后这个 Task 的栈空了。如果是以SingleTask打开AlarmAlertActivity，那么当闹铃响了的时候，按返回键应该进入闹铃设置界面。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>关于Activity的四种启动模式介绍到此完毕~欢迎补充！另外有不足的地方，欢迎在下方评论，交流。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://songning.me/2016/10/28/activity-launch-mode/" data-id="cjhwyna4s0006gkpnx1sbbcy2" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/10/29/singleton-pattern/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Java设计模式 - 单例模式
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/10/27/first/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">第一章</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/23/upload-to-jcenter/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://ofp4swv4i.bkt.clouddn.com/thumbnail-jcenter.png)" alt="一步一步教你在JCenter发布开源库" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/12/23/upload-to-jcenter/" class="title">一步一步教你在JCenter发布开源库</a></p>
+                            <p class="item-date"><time datetime="2016-12-23T04:35:42.000Z" itemprop="datePublished">2016-12-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/21/circle-view/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://ofp4swv4i.bkt.clouddn.com/thumbnail-circleview.png)" alt="自定义View，从画个圆写个字开始" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/12/21/circle-view/" class="title">自定义View，从画个圆写个字开始</a></p>
+                            <p class="item-date"><time datetime="2016-12-21T12:17:18.000Z" itemprop="datePublished">2016-12-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/11/09/mvp-rxjava-retrofit/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/11/09/mvp-rxjava-retrofit/" class="title">优雅的使用MVP+RxJava+Retrofit框架</a></p>
+                            <p class="item-date"><time datetime="2016-11-09T08:34:09.000Z" itemprop="datePublished">2016-11-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/11/03/google-rxjava-mvp/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/11/03/google-rxjava-mvp/" class="title">Google官方MVP框架源码解读</a></p>
+                            <p class="item-date"><time datetime="2016-11-03T07:54:41.000Z" itemprop="datePublished">2016-11-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/29/singleton-pattern/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Java/">Java</a></p>
+                            <p class="item-title"><a href="/2016/10/29/singleton-pattern/" class="title">Java设计模式 - 单例模式</a></p>
+                            <p class="item-date"><time datetime="2016-10-29T09:19:04.000Z" itemprop="datePublished">2016-10-29</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/source/categories/Android/">Android</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/source/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/source/categories/随想/">随想</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/JCenter/">JCenter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/MVP/">MVP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/Retrofit/">Retrofit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/基础/">基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/框架/">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/第一篇/">第一篇</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/自定义View/">自定义View</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/设计模式/">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/随想/">随想</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/面试/">面试</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/source/tags/JCenter/" style="font-size: 10px;">JCenter</a> <a href="/source/tags/MVP/" style="font-size: 20px;">MVP</a> <a href="/source/tags/Retrofit/" style="font-size: 10px;">Retrofit</a> <a href="/source/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/source/tags/基础/" style="font-size: 20px;">基础</a> <a href="/source/tags/框架/" style="font-size: 10px;">框架</a> <a href="/source/tags/第一篇/" style="font-size: 10px;">第一篇</a> <a href="/source/tags/自定义View/" style="font-size: 10px;">自定义View</a> <a href="/source/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/source/tags/随想/" style="font-size: 10px;">随想</a> <a href="/source/tags/面试/" style="font-size: 10px;">面试</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 SongNing<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

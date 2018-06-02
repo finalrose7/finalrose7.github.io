@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>自定义View，从画个圆写个字开始 | SongNing&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前言老早以前就开始看关于自定义View的文章了，这两天实践了一下以前看的有关自定义View的知识，画了个控件。这个控件虽然看起来简单，但自定义View的基本用法都用到了。麻雀虽小，五脏俱全，所以还是记录一下过程。">
+<meta name="keywords" content="自定义View">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义View，从画个圆写个字开始">
+<meta property="og:url" content="http://songning.me/2016/12/21/circle-view/index.html">
+<meta property="og:site_name" content="SongNing&#39;s Blog">
+<meta property="og:description" content="前言老早以前就开始看关于自定义View的文章了，这两天实践了一下以前看的有关自定义View的知识，画了个控件。这个控件虽然看起来简单，但自定义View的基本用法都用到了。麻雀虽小，五脏俱全，所以还是记录一下过程。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ofp4swv4i.bkt.clouddn.com/thumbnail-circleview.png">
+<meta property="og:updated_time" content="2017-04-02T03:34:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义View，从画个圆写个字开始">
+<meta name="twitter:description" content="前言老早以前就开始看关于自定义View的文章了，这两天实践了一下以前看的有关自定义View的知识，画了个控件。这个控件虽然看起来简单，但自定义View的基本用法都用到了。麻雀虽小，五脏俱全，所以还是记录一下过程。">
+<meta name="twitter:image" content="http://ofp4swv4i.bkt.clouddn.com/thumbnail-circleview.png">
+    
+
+    
+        <link rel="alternate" href="/" title="SongNing&#39;s Blog" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?de41d2ddbb3fb2445594130384270f32";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">SongNing&#39;s Blog</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">SongNing</h2>
+            <h3 id="title">Android Developer &amp; Designer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Guangzhou, China</span>
+            <a id="follow" target="_blank" href="https://github.com/finalrose7">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                7
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                11
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/finalrose7" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-circle-view" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            自定义View，从画个圆写个字开始
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/12/21/circle-view/">
+            <time datetime="2016-12-21T12:17:18.000Z" itemprop="datePublished">2016-12-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/source/categories/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/source/tags/自定义View/">自定义View</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>老早以前就开始看关于自定义View的文章了，这两天实践了一下以前看的有关自定义View的知识，画了个控件。这个控件虽然看起来简单，但自定义View的基本用法都用到了。麻雀虽小，五脏俱全，所以还是记录一下过程。<a id="more"></a></p>
+<p>关于自定义View的文章，我在这墙裂推荐一下GcsSloop写的<a href="http://www.gcssloop.com/customview/CustomViewIndex" target="_blank" rel="noopener">安卓自定义View教程。</a>这是目前我认为写得比较好的关于自定义View的文章，而且很完整也很详细，通俗易懂。</p>
+<p>那么，回归主题，就从画个不简单的圆开始吧。先看效果图，我知道没有图你们是不会往下看的。</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/circle_view_demo_gif.gif" alt="gif"><br><img src="http://ofp4swv4i.bkt.clouddn.com/circle_view_in_rv.png" alt="in_rv"></p>
+<p>gif图的效果有点卡顿，真机上是很流畅的。</p>
+<h2 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h2><p>拿到一个效果图，先看看要怎么画，思考清楚再去干活有时候会事半功倍（其实刚开始我只是打算画个圆，画着画着就越来越多了…）。我们这效果很简单，我们现在的需求只是要画个圆，然后再在上面写个字。</p>
+<h3 id="画个圆"><a href="#画个圆" class="headerlink" title="画个圆"></a>画个圆</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onDraw(canvas);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> paddingLeft = getPaddingLeft();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> paddingRight = getPaddingRight();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> paddingTop = getPaddingTop();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> paddingBottom = getPaddingBottom();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> width = getWidth() - paddingLeft - paddingRight;</span><br><span class="line">    <span class="keyword">int</span> height = getHeight() - paddingTop - paddingBottom;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> centerX = paddingLeft + width / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">float</span> centerY = paddingTop + height / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> radius = Math.min(width, height) / <span class="number">2</span>;</span><br><span class="line">    canvas.drawCircle(centerX, centerY, radius, mCirclePaint);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>画圆的代码很简单，因为是继承自View，所以需要先在onDrow方法中先进行处理padding，不然padding会失效。拿到我们的View的实际的宽高后，再去获取View的中心点，用来当作圆心位置。因为我这里的画布的坐标原点在屏幕左上角，所以获取中心点的时候要加上paddingLeft和paddingTop的距离。centerX和centerY组成的点是我们布局的中心点。拿到中心点后，再根据长宽中的最小值的一半当作半径，然后就可以进行绘制圆了。So easy!</p>
+<h3 id="写个字"><a href="#写个字" class="headerlink" title="写个字"></a>写个字</h3><p>drawText我们用到的是四个参数的方法，这里有个要注意的地方就是第二个参数和第三个参数并不是文字的中心位置，分别是文字左边的X值和文字底部的Y值。看下源码就知道了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Draw the text, with origin at (x,y), using the specified paint. The</span></span><br><span class="line"><span class="comment"> * origin is interpreted based on the Align setting in the paint.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> text  The text to be drawn</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> x     The x-coordinate of the origin of the text being drawn</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> y     The y-coordinate of the baseline of the text being drawn</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> paint The paint used for the text (e.g. color, size, style)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drawText</span><span class="params">(@NonNull String text, <span class="keyword">float</span> x, <span class="keyword">float</span> y, @NonNull Paint paint)</span> </span>&#123;</span><br><span class="line">    native_drawText(mNativeCanvasWrapper, text, <span class="number">0</span>, text.length(), x, y, paint.mBidiFlags,</span><br><span class="line">            paint.getNativeInstance(), paint.mNativeTypeface);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么这个baseline又是什么？baseline就是文字底部的Y值。看看下面这张图你就明白了：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/ciecle_view_text.png" alt="text"></p>
+<p>想要把文字放在圆的中心位置，先要找到baseline和文字的左边X值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drawVerticalText</span><span class="params">(Canvas canvas, <span class="keyword">float</span> centerX, <span class="keyword">float</span> centerY, String text)</span> </span>&#123;</span><br><span class="line">    Paint.FontMetrics fontMetrics = mVerticalTextPaint.getFontMetrics();</span><br><span class="line">    <span class="keyword">float</span> baseLine = -(fontMetrics.ascent + fontMetrics.descent) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">float</span> textWidth = mVerticalTextPaint.measureText(text);</span><br><span class="line">    <span class="keyword">float</span> startX = centerX - textWidth / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">float</span> endY = centerY + baseLine;</span><br><span class="line">    canvas.drawText(text, startX, endY, mVerticalTextPaint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>网上有很多关于drawText的文章，不过多数是用一个Rect包裹着再画，我这里是直接画。画字在这里我封装成了一个方法，从画笔中拿到FontMetrics对象，用来获取文字的属性，包括Ascent值和Descent值等。然后计算baseline，用Paint的measureText方法获取文字的长度。最后根据中心点偏移一下把文字放到中间，ok。看一下效果：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/circle_view_one.png" alt="one"></p>
+<h3 id="文字竖排"><a href="#文字竖排" class="headerlink" title="文字竖排"></a>文字竖排</h3><p>这时，又有个需求，我想要文字竖排显示怎么弄？第一反应想到的是drawText是不是应该有个可以控制方向的方法或参数？然而，并没有这么容易。drawText并不能竖排画文字，那么drawTextOnPath方法是不是可以呢？在圆的竖直方向建一条路径，但是结果并不是很理想，图我就不放了。最后想到的是用StaticLayout这个类，通过换行来实现竖排，其实TextView源码中也用到了这个来换行。来看主要代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">mHorizontalTextPaint = <span class="keyword">new</span> TextPaint(mVerticalTextPaint);</span><br><span class="line">   mStaticLayout = <span class="keyword">new</span> StaticLayout(mText, mHorizontalTextPaint, <span class="number">1</span>, Layout.Alignment.ALIGN_CENTER, <span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="keyword">false</span>);</span><br><span class="line">...</span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drawHorizontalText</span><span class="params">(Canvas canvas, <span class="keyword">float</span> centerX, <span class="keyword">float</span> centerY)</span> </span>&#123;</span><br><span class="line">       canvas.translate(centerX, centerY - mStaticLayout.getHeight() / <span class="number">2</span>);</span><br><span class="line">       mStaticLayout.draw(canvas);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>StaticLayout的构造方法第二个参数需要传个TextPaint进去，TextPaint是继承自Paint，所以可以直接传个我们上面画水平方向文字的时候的Paint对象进去就行了，就不用重新设置颜色字体大小等属性。关于StaticLayout的构造方法的参数是什么作用我这就不详细说了，我们主要看第三个参数。这个参数代表超过多少个字符就换行，这里我们传个1代表一个就换行。然后把画布X轴移动到圆心坐标，文字的高度的一半为圆心Y轴的值。这样，我们就实现了文字竖排：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/circle_view_two.png" alt="two"></p>
+<h3 id="文字任意角度"><a href="#文字任意角度" class="headerlink" title="文字任意角度"></a>文字任意角度</h3><p>继续加需求，要求文字45°斜着显示该怎么弄？这个简单，把画布坐标旋转不就可以了吗~</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">canvas.rotate(mAngle, centerX, centerY);</span><br><span class="line">drawText(canvas, centerX, centerY);</span><br></pre></td></tr></table></figure>
+<p>调用画布的rotate方法就可以了，就一行代码。但是这里要注意的是在drawText前面旋转画布后再drawText，一定要在drawText前面旋转画布！不然是没效果的，我在这就跳进坑里了T.T 在drawText后才旋转画布，一直没反应。还以为是哪里出错了。</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/circle_view_three.png" alt="three"></p>
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>静态的文字头像有点单调了，那就加个动画吧。好，说加就加，加个旋转的吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startRotateAnimation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mAnimator == <span class="keyword">null</span>) &#123;</span><br><span class="line">        initRotateAnimation();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!mAnimator.isRunning()) &#123;</span><br><span class="line">        mAnimator.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initRotateAnimation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mRotateOrientation == ROTATE_CLOCKWISE) &#123;</span><br><span class="line">        mRotateValues = <span class="number">360f</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mRotateOrientation == ROTATE_ANTICLOCKWISE) &#123;</span><br><span class="line">        mRotateValues = -<span class="number">360f</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mAnimator = ValueAnimator.ofFloat(<span class="number">0f</span>, mRotateValues);</span><br><span class="line">    mAnimator.setInterpolator(<span class="keyword">new</span> LinearInterpolator());</span><br><span class="line">    mAnimator.setDuration(mSpeed);</span><br><span class="line">    mAnimator.addUpdateListener(<span class="keyword">this</span>);</span><br><span class="line">    mAnimator.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">    mAnimator.setRepeatMode(ValueAnimator.RESTART);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">    mAngle = (<span class="keyword">float</span>) animation.getAnimatedValue();</span><br><span class="line">    invalidate();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopRotateAnimation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mAnimator != <span class="keyword">null</span> &amp;&amp; mAnimator.isRunning()) &#123;</span><br><span class="line">        mAnimator.cancel();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关于旋转动画的主要就这四个方法。原理是用属性动画ValueAnimator动态线性均匀改变一个0到360浮点值，在AnimatorUpdateListener的onAnimationUpdate方法获取范围值，mAngle为上面任意角度文字的值，动态改变这个值，不断重绘界面，就可以实现文字的旋转动画了。至于上面的360f和-360f是用来控制方向的，顺时针或者逆时针旋转。通过持续时间setDuration来控制速度。转起来：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/circle_view_four.gif" alt="four"></p>
+<h3 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h3><p>看到FloatingActionButton自带的show和hide的动画，这里我也仿照着弄了个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isShow) &#123;</span><br><span class="line">        scaleAnimation(<span class="number">0.0f</span>, <span class="number">1.0f</span>, <span class="number">300</span>);</span><br><span class="line">        isShow = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hide</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isShow) &#123;</span><br><span class="line">        scaleAnimation(<span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">300</span>);</span><br><span class="line">        isShow = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">scaleAnimation</span><span class="params">(<span class="keyword">float</span> start, <span class="keyword">float</span> end, <span class="keyword">long</span> duration)</span> </span>&#123;</span><br><span class="line">    ObjectAnimator animatorX = ObjectAnimator.ofFloat(<span class="keyword">this</span>, <span class="string">"scaleX"</span>, start, end);</span><br><span class="line">    ObjectAnimator animatorY = ObjectAnimator.ofFloat(<span class="keyword">this</span>, <span class="string">"scaleY"</span>, start, end);</span><br><span class="line">    AnimatorSet animatorSet = <span class="keyword">new</span> AnimatorSet();</span><br><span class="line">    animatorSet.setDuration(duration);</span><br><span class="line">    animatorSet.playTogether(animatorX, animatorY);</span><br><span class="line">    animatorSet.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样是通过属性动画ObjectAnimator，去缩放X轴方向“scaleX”，和Y轴方向“scaleY”。把两个动画放到一个动画集AnimatorSet里面同时执行，从0f到1f是显示，1f到0f是隐藏。</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/circle_view_five.gif" alt="five"></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>至此，这个文字头像控就控件就写完了。其实没什么很难的地方，只是把自定义View的基本流程写了一遍。对于学习自定义View，光看是不行的，一定要实践，动手后发现也没想象中的那么难。</p>
+<p>同时，我将这个CircleView封装了一下发布到了JCenter，免得重复造轮子。</p>
+<blockquote>
+<p>项目地址：<a href="https://github.com/backkomyoung/CircleView" target="_blank" rel="noopener">https://github.com/backkomyoung/CircleView</a></p>
+</blockquote>
+<p>喜欢就点个Star吧！</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://songning.me/2016/12/21/circle-view/" data-id="cjhwyna5m000rgkpnmmnzixph" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/12/23/upload-to-jcenter/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    一步一步教你在JCenter发布开源库
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/11/09/mvp-rxjava-retrofit/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">优雅的使用MVP+RxJava+Retrofit框架</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/23/upload-to-jcenter/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://ofp4swv4i.bkt.clouddn.com/thumbnail-jcenter.png)" alt="一步一步教你在JCenter发布开源库" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/12/23/upload-to-jcenter/" class="title">一步一步教你在JCenter发布开源库</a></p>
+                            <p class="item-date"><time datetime="2016-12-23T04:35:42.000Z" itemprop="datePublished">2016-12-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/21/circle-view/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://ofp4swv4i.bkt.clouddn.com/thumbnail-circleview.png)" alt="自定义View，从画个圆写个字开始" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/12/21/circle-view/" class="title">自定义View，从画个圆写个字开始</a></p>
+                            <p class="item-date"><time datetime="2016-12-21T12:17:18.000Z" itemprop="datePublished">2016-12-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/11/09/mvp-rxjava-retrofit/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/11/09/mvp-rxjava-retrofit/" class="title">优雅的使用MVP+RxJava+Retrofit框架</a></p>
+                            <p class="item-date"><time datetime="2016-11-09T08:34:09.000Z" itemprop="datePublished">2016-11-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/11/03/google-rxjava-mvp/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/11/03/google-rxjava-mvp/" class="title">Google官方MVP框架源码解读</a></p>
+                            <p class="item-date"><time datetime="2016-11-03T07:54:41.000Z" itemprop="datePublished">2016-11-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/29/singleton-pattern/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Java/">Java</a></p>
+                            <p class="item-title"><a href="/2016/10/29/singleton-pattern/" class="title">Java设计模式 - 单例模式</a></p>
+                            <p class="item-date"><time datetime="2016-10-29T09:19:04.000Z" itemprop="datePublished">2016-10-29</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/source/categories/Android/">Android</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/source/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/source/categories/随想/">随想</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/JCenter/">JCenter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/MVP/">MVP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/Retrofit/">Retrofit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/基础/">基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/框架/">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/第一篇/">第一篇</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/自定义View/">自定义View</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/设计模式/">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/随想/">随想</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/面试/">面试</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/source/tags/JCenter/" style="font-size: 10px;">JCenter</a> <a href="/source/tags/MVP/" style="font-size: 20px;">MVP</a> <a href="/source/tags/Retrofit/" style="font-size: 10px;">Retrofit</a> <a href="/source/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/source/tags/基础/" style="font-size: 20px;">基础</a> <a href="/source/tags/框架/" style="font-size: 10px;">框架</a> <a href="/source/tags/第一篇/" style="font-size: 10px;">第一篇</a> <a href="/source/tags/自定义View/" style="font-size: 10px;">自定义View</a> <a href="/source/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/source/tags/随想/" style="font-size: 10px;">随想</a> <a href="/source/tags/面试/" style="font-size: 10px;">面试</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 SongNing<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

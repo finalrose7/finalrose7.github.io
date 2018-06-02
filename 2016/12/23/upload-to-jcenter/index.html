@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>一步一步教你在JCenter发布开源库 | SongNing&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="当你写好了一个开源库，是否也想像其他的开源库一样在Android Studio中一句compile就可以引用。比如：  compile ‘com.android.support:appcompat-v7:25.1.0’">
+<meta name="keywords" content="JCenter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一步一步教你在JCenter发布开源库">
+<meta property="og:url" content="http://songning.me/2016/12/23/upload-to-jcenter/index.html">
+<meta property="og:site_name" content="SongNing&#39;s Blog">
+<meta property="og:description" content="当你写好了一个开源库，是否也想像其他的开源库一样在Android Studio中一句compile就可以引用。比如：  compile ‘com.android.support:appcompat-v7:25.1.0’">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ofp4swv4i.bkt.clouddn.com/thumbnail-jcenter.png">
+<meta property="og:updated_time" content="2017-04-02T03:34:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一步一步教你在JCenter发布开源库">
+<meta name="twitter:description" content="当你写好了一个开源库，是否也想像其他的开源库一样在Android Studio中一句compile就可以引用。比如：  compile ‘com.android.support:appcompat-v7:25.1.0’">
+<meta name="twitter:image" content="http://ofp4swv4i.bkt.clouddn.com/thumbnail-jcenter.png">
+    
+
+    
+        <link rel="alternate" href="/" title="SongNing&#39;s Blog" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?de41d2ddbb3fb2445594130384270f32";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">SongNing&#39;s Blog</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">SongNing</h2>
+            <h3 id="title">Android Developer &amp; Designer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Guangzhou, China</span>
+            <a id="follow" target="_blank" href="https://github.com/finalrose7">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                7
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                11
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/finalrose7" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-upload-to-jcenter" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            一步一步教你在JCenter发布开源库
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/12/23/upload-to-jcenter/">
+            <time datetime="2016-12-23T04:35:42.000Z" itemprop="datePublished">2016-12-23</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/source/categories/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/source/tags/JCenter/">JCenter</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_register1.png" alt="register1"></p>
+<p>当你写好了一个开源库，是否也想像其他的开源库一样在Android Studio中一句compile就可以引用。比如：</p>
+<blockquote>
+<p>compile ‘com.android.support:appcompat-v7:25.1.0’<a id="more"></a></p>
+</blockquote>
+<p>这看起来是一件很酷的事情，其实也不难。将你的项目上传Maven，然后发布到JCenter即可。下面我们来看看详细过程。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先你要写好一个开源项目。嗯，不用我说你也知道。</p>
+<h3 id="注册Bintray"><a href="#注册Bintray" class="headerlink" title="注册Bintray"></a>注册Bintray</h3><p>说到注册，大家第一时间肯定是想到去<a href="https://bintray.com/" target="_blank" rel="noopener">官网</a>注册。但是，现在官网首页的注册入口（上面第一张图）已经变成组织的注册了，并不是个人注册。所以我们要去个人注册入口：</p>
+<blockquote>
+<p>传送门：<a href="https://bintray.com/signup/oss" target="_blank" rel="noopener">https://bintray.com/signup/oss</a></p>
+</blockquote>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_register2.png" alt="register2"></p>
+<p>在上面这个页面注册就对了。也可以用第三方登录，我是直接用Github登录（好像其它两个在我国也登录不了），省事。</p>
+<h3 id="创建一个Maven仓库"><a href="#创建一个Maven仓库" class="headerlink" title="创建一个Maven仓库"></a>创建一个Maven仓库</h3><p>注册完登录进去后，点击“Add New Repository”，新建仓库：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_create.png" alt="create"></p>
+<p>接下来，我们会看到这么一个界面：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_create1.png" alt="create1"></p>
+<p>Name填maven，Type选Maven，Default Licenses选Apache-2.0，Description是描述，随便填，点击Create。然后回到主页就会在刚刚“Add New Repository”下面多了一个叫maven的仓库。</p>
+<h3 id="配置build-gradle"><a href="#配置build-gradle" class="headerlink" title="配置build.gradle"></a>配置build.gradle</h3><p>在你Project的build.gradle文件中加入Maven和Jfrog Bintray的依赖插件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">'com.android.tools.build:gradle:2.2.3'</span></span><br><span class="line">        <span class="comment">//下面这两句</span></span><br><span class="line">        classpath <span class="string">'com.github.dcendents:android-maven-gradle-plugin:1.5'</span></span><br><span class="line">        classpath <span class="string">'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'</span></span><br><span class="line">        <span class="comment">// <span class="doctag">NOTE:</span> Do not place your application dependencies here; they belong</span></span><br><span class="line">        <span class="comment">// in the individual module build.gradle files</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">task <span class="title">clean</span><span class="params">(type: Delete)</span> </span>&#123;</span><br><span class="line">    delete rootProject.buildDir</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你不一定要和我用同样版本的插件，说不定你用的时候就不是这个版本了。建议去Github上看看最新的版本：</p>
+<blockquote>
+<p>Maven：<a href="https://github.com/dcendents/android-maven-gradle-plugin" target="_blank" rel="noopener">https://github.com/dcendents/android-maven-gradle-plugin</a><br>Jfrog Bintray：<a href="https://github.com/bintray/gradle-bintray-plugin" target="_blank" rel="noopener">https://github.com/bintray/gradle-bintray-plugin</a></p>
+</blockquote>
+<p>然后在library的build.gradle文件中进行配置，这里以我的开源控件<a href="https://github.com/backkomyoung/CircleView" target="_blank" rel="noopener">CircleView</a>为例：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_gradle.png" alt="gradle"></p>
+<p>整个build.gradle文件如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'com.android.library'</span></span><br><span class="line"><span class="comment">//添加这两行</span></span><br><span class="line">apply plugin: <span class="string">'com.github.dcendents.android-maven'</span></span><br><span class="line">apply plugin: <span class="string">'com.jfrog.bintray'</span></span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion <span class="number">25</span></span><br><span class="line">    buildToolsVersion <span class="string">"25.0.0"</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        minSdkVersion <span class="number">14</span></span><br><span class="line">        targetSdkVersion <span class="number">25</span></span><br><span class="line">        versionCode <span class="number">1</span></span><br><span class="line">        versionName <span class="string">"1.0"</span></span><br><span class="line"></span><br><span class="line">        testInstrumentationRunner <span class="string">"android.support.test.runner.AndroidJUnitRunner"</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="keyword">false</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">dependencies </span>&#123;</span><br><span class="line">    <span class="function">compile <span class="title">fileTree</span><span class="params">(dir: <span class="string">'libs'</span>, include: [<span class="string">'*.jar'</span>])</span></span></span><br><span class="line"><span class="function">    <span class="title">androidTestCompile</span><span class="params">(<span class="string">'com.android.support.test.espresso:espresso-core:2.2.2'</span>, &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">        exclude group: <span class="string">'com.android.support'</span>, <span class="keyword">module</span>: <span class="string">'support-annotations'</span></span></span></span><br><span class="line"><span class="function"><span class="params">    &#125;)</span></span></span><br><span class="line"><span class="function">    compile 'com.android.support:appcompat-v7:25.1.0'</span></span><br><span class="line"><span class="function">    testCompile 'junit:junit:4.12'</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">//项目主页</span></span></span><br><span class="line"><span class="function">def siteUrl </span>= <span class="string">'https://github.com/backkomyoung/CircleView'</span></span><br><span class="line"><span class="comment">//项目的git地址</span></span><br><span class="line">def gitUrl = <span class="string">'https://github.com/backkomyoung/CircleView.git'</span></span><br><span class="line"><span class="comment">//发布到JCenter上的项目名字</span></span><br><span class="line">def libName = <span class="string">"CircleView"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//发布到组织名称名字，必须填写</span></span><br><span class="line">group = <span class="string">"me.songning.CircleView"</span></span><br><span class="line"><span class="comment">// 版本号，下次更新是只需要更改版本号即可</span></span><br><span class="line">version = <span class="string">"1.0.0"</span></span><br><span class="line"><span class="comment">//上面配置后上传至JCenter后的编译路径是这样的： compile 'me.songning.CircleView:library:1.0.0'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//生成源文件</span></span><br><span class="line"><span class="function">task <span class="title">sourcesJar</span><span class="params">(type: Jar)</span> </span>&#123;</span><br><span class="line">    from android.sourceSets.main.java.srcDirs</span><br><span class="line">    classifier = <span class="string">'sources'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//生成Javadoc文档</span></span><br><span class="line"><span class="function">task <span class="title">javadoc</span><span class="params">(type: Javadoc)</span> </span>&#123;</span><br><span class="line">    source = android.sourceSets.main.java.srcDirs</span><br><span class="line">    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//文档打包成jar</span></span><br><span class="line"><span class="function">task <span class="title">javadocJar</span><span class="params">(type: Jar, dependsOn: javadoc)</span> </span>&#123;</span><br><span class="line">    classifier = <span class="string">'javadoc'</span></span><br><span class="line">    from javadoc.destinationDir</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//拷贝javadoc文件</span></span><br><span class="line"><span class="function">task <span class="title">copyDoc</span><span class="params">(type: Copy)</span> </span>&#123;</span><br><span class="line">    from <span class="string">"$&#123;buildDir&#125;/docs/"</span></span><br><span class="line">    into <span class="string">"docs"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//上传到JCenter所需要的源码文件</span></span><br><span class="line">artifacts &#123;</span><br><span class="line">    archives javadocJar</span><br><span class="line">    archives sourcesJar</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置maven库，生成POM.xml文件</span></span><br><span class="line">install &#123;</span><br><span class="line">    repositories.mavenInstaller &#123;</span><br><span class="line">        <span class="comment">// This generates POM.xml with proper parameters</span></span><br><span class="line">        pom &#123;</span><br><span class="line">            project &#123;</span><br><span class="line">                packaging <span class="string">'aar'</span></span><br><span class="line">                <span class="comment">//项目描述，随意填</span></span><br><span class="line">                name <span class="string">'A colorful circle view with text.'</span></span><br><span class="line">                url siteUrl</span><br><span class="line">                licenses &#123;</span><br><span class="line">                    license &#123;</span><br><span class="line">                        <span class="comment">//开源协议</span></span><br><span class="line">                        name <span class="string">'The Apache Software License, Version 2.0'</span></span><br><span class="line">                        url <span class="string">'http://www.apache.org/licenses/LICENSE-2.0.txt'</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                developers &#123;</span><br><span class="line">                    developer &#123;</span><br><span class="line">                        <span class="comment">//开发者的个人信息</span></span><br><span class="line">                        id <span class="string">'backkomyoung'</span></span><br><span class="line">                        name <span class="string">'SongNing'</span></span><br><span class="line">                        email <span class="string">'backkomyoung@gmail.com'</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                scm &#123;</span><br><span class="line">                    connection gitUrl</span><br><span class="line">                    developerConnection gitUrl</span><br><span class="line">                    url siteUrl</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//上传到JCenter</span></span><br><span class="line">Properties properties = <span class="keyword">new</span> Properties()</span><br><span class="line">properties.load(project.rootProject.file(<span class="string">'local.properties'</span>).newDataInputStream())</span><br><span class="line"></span><br><span class="line">bintray &#123;</span><br><span class="line">    user = properties.getProperty(<span class="string">"bintray.user"</span>)    <span class="comment">//读取 local.properties 文件里面的 bintray.user</span></span><br><span class="line">    key = properties.getProperty(<span class="string">"bintray.apikey"</span>)   <span class="comment">//读取 local.properties 文件里面的 bintray.apikey</span></span><br><span class="line">    configurations = [<span class="string">'archives'</span>]</span><br><span class="line">    pkg &#123;</span><br><span class="line">        <span class="comment">//这里的repo值必须要和你创建Maven仓库的时候的名字一样</span></span><br><span class="line">        repo = <span class="string">"maven"</span></span><br><span class="line">        <span class="comment">//发布到JCenter上的项目名字</span></span><br><span class="line">        name = libName</span><br><span class="line">        <span class="comment">//项目描述</span></span><br><span class="line">        desc = <span class="string">'A colorful circle view with text.'</span></span><br><span class="line">        websiteUrl = siteUrl</span><br><span class="line">        vcsUrl = gitUrl</span><br><span class="line">        licenses = [<span class="string">"Apache-2.0"</span>]</span><br><span class="line">        publish = <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">javadoc &#123;</span><br><span class="line">    options&#123;</span><br><span class="line">        <span class="comment">//如果你的项目里面有中文注释的话，必须将格式设置为UTF-8，不然会出现乱码</span></span><br><span class="line">        encoding <span class="string">"UTF-8"</span></span><br><span class="line">        charSet <span class="string">'UTF-8'</span></span><br><span class="line">        author <span class="keyword">true</span></span><br><span class="line">        version <span class="keyword">true</span></span><br><span class="line">        links <span class="string">"http://docs.oracle.com/javase/7/docs/api"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此外，还要将user和key写到local.properties文件中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sdk.dir=E\:\\Android\\Sdk</span><br><span class="line"><span class="comment">//uer和key</span></span><br><span class="line">bintray.user=username</span><br><span class="line">bintray.apikey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure>
+<p>user即为你的账号：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_user.png" alt="user"></p>
+<p>key的话点击修改信息：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_edit.png" alt="edit"></p>
+<p>选择左边的“API key”，然后复制key：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_key.png" alt="key"></p>
+<p>把user和key填到上面的local.properties文件中就ok啦。准备工作到这里算是完成了。</p>
+<h2 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h2><p>打开Android Studio底部工具栏的Terminal窗口，输入命令：</p>
+<blockquote>
+<p>gradlew install</p>
+</blockquote>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_loading.png" alt="build"></p>
+<p>漫长的等待…可能是我的网络问题，吃了个饭回来才弄好。</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_build_succeed.png" alt="succeed"></p>
+<p>显示“BUILD SUCCESSFUL”即表示成功。</p>
+<p>到这里已经成功一半了，只差上传到Bintray了。然后我们接着在Terminal窗口输入命令：</p>
+<blockquote>
+<p>gradlew bintrayUpload</p>
+</blockquote>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_bintrayUpload.png" alt="bintrayUpload"></p>
+<p>这个很快就好~</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_upload.png" alt="upload"></p>
+<p>同样，显示“BUILD SUCCESSFUL”即表示成功。</p>
+<h2 id="发布到JCenter"><a href="#发布到JCenter" class="headerlink" title="发布到JCenter"></a>发布到JCenter</h2><p>这时候打开我们创建的maven仓库，就会在里面发现已经成功将项目上传到仓库里。</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_maven.png" alt="maven"></p>
+<p>点击我们的项目名，进入详情：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_jcenter.png" alt="jcenter"></p>
+<p>点击“Add to JCenter”后：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_send.png" alt="send"></p>
+<p>直接点Send就行了。因为时差的关系，接下来就是漫长的等待审核了。</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_approved.png" alt="approved"></p>
+<p>经过几个小时，在Bintray的网站上会有提示审核通过。这时候，就可以在Android Studio上通过compile的方式使用了。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>说说我遇到的问题，就是执行上传命令的时候，显示这个错误：</p>
+<p><img src="http://ofp4swv4i.bkt.clouddn.com/upload_to_jcenter_upload_fail.png" alt="fail"></p>
+<p>提示找不到“maven”，原因是我当时还没创建Maven仓库就执行上传命令，创建后再执行一遍命令就成功了。还有就是创建的Maven仓库的名字一定要和build.gradle文件里面的repo值一致。我就遇到这一个问题。</p>
+<p>如果你们遇到其他的问题，建议看看这篇：</p>
+<blockquote>
+<p><a href="http://www.jianshu.com/p/c518a10fdaed" target="_blank" rel="noopener">Android 发布项目到 JCenter 遇到的各种坑</a></p>
+</blockquote>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>到这里就把整个开源库发布到JCenter的流程写完了，有什么问题可以在下面留言~</p>
+<blockquote>
+<p>参考文章<br><a href="http://blog.csdn.net/mchaoliu/article/details/51984486" target="_blank" rel="noopener">android 将开源项目发布到JCenter及问题总结</a><br><a href="http://blog.csdn.net/yyh352091626/article/details/51901562" target="_blank" rel="noopener">利用Gradle发布项目到JCenter、Maven</a><br><a href="https://gold.xitu.io/post/5858cc37570c35006916b718" target="_blank" rel="noopener">新版Bintray-极简上传Library到JCenter</a></p>
+</blockquote>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://songning.me/2016/12/23/upload-to-jcenter/" data-id="cjhwyna5o000sgkpn8i2i8hv1" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/12/21/circle-view/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">自定义View，从画个圆写个字开始</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/23/upload-to-jcenter/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://ofp4swv4i.bkt.clouddn.com/thumbnail-jcenter.png)" alt="一步一步教你在JCenter发布开源库" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/12/23/upload-to-jcenter/" class="title">一步一步教你在JCenter发布开源库</a></p>
+                            <p class="item-date"><time datetime="2016-12-23T04:35:42.000Z" itemprop="datePublished">2016-12-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/21/circle-view/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://ofp4swv4i.bkt.clouddn.com/thumbnail-circleview.png)" alt="自定义View，从画个圆写个字开始" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/12/21/circle-view/" class="title">自定义View，从画个圆写个字开始</a></p>
+                            <p class="item-date"><time datetime="2016-12-21T12:17:18.000Z" itemprop="datePublished">2016-12-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/11/09/mvp-rxjava-retrofit/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/11/09/mvp-rxjava-retrofit/" class="title">优雅的使用MVP+RxJava+Retrofit框架</a></p>
+                            <p class="item-date"><time datetime="2016-11-09T08:34:09.000Z" itemprop="datePublished">2016-11-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/11/03/google-rxjava-mvp/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/11/03/google-rxjava-mvp/" class="title">Google官方MVP框架源码解读</a></p>
+                            <p class="item-date"><time datetime="2016-11-03T07:54:41.000Z" itemprop="datePublished">2016-11-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/29/singleton-pattern/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/source/categories/Java/">Java</a></p>
+                            <p class="item-title"><a href="/2016/10/29/singleton-pattern/" class="title">Java设计模式 - 单例模式</a></p>
+                            <p class="item-date"><time datetime="2016-10-29T09:19:04.000Z" itemprop="datePublished">2016-10-29</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/source/categories/Android/">Android</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/source/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/source/categories/随想/">随想</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/source/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/JCenter/">JCenter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/MVP/">MVP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/Retrofit/">Retrofit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/基础/">基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/框架/">框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/第一篇/">第一篇</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/自定义View/">自定义View</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/设计模式/">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/随想/">随想</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/source/tags/面试/">面试</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/source/tags/JCenter/" style="font-size: 10px;">JCenter</a> <a href="/source/tags/MVP/" style="font-size: 20px;">MVP</a> <a href="/source/tags/Retrofit/" style="font-size: 10px;">Retrofit</a> <a href="/source/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/source/tags/基础/" style="font-size: 20px;">基础</a> <a href="/source/tags/框架/" style="font-size: 10px;">框架</a> <a href="/source/tags/第一篇/" style="font-size: 10px;">第一篇</a> <a href="/source/tags/自定义View/" style="font-size: 10px;">自定义View</a> <a href="/source/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/source/tags/随想/" style="font-size: 10px;">随想</a> <a href="/source/tags/面试/" style="font-size: 10px;">面试</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 SongNing<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
