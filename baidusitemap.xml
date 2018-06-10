@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+    
+    
+  <url>
+    <loc>http://songning.me/2016/10/28/activity-launch-mode/</loc>
+    <lastmod>2017-04-02T03:35:30.000Z</lastmod>
+    <data>
+        <display>
+        <title>Activity的四种启动模式</title>
+        <pubTime>2016-10-28T13:06:30.000Z</pubTime>
+        
+        <tag>基础</tag>
+         
+        <tag>面试</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://songning.me/source/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://songning.me/2016/12/23/upload-to-jcenter/</loc>
+    <lastmod>2017-04-02T03:34:40.000Z</lastmod>
+    <data>
+        <display>
+        <title>一步一步教你在JCenter发布开源库</title>
+        <pubTime>2016-12-23T04:35:42.000Z</pubTime>
+        
+        <tag>JCenter</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://songning.me/source/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://songning.me/2016/12/21/circle-view/</loc>
+    <lastmod>2017-04-02T03:34:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>自定义View，从画个圆写个字开始</title>
+        <pubTime>2016-12-21T12:17:18.000Z</pubTime>
+        
+        <tag>自定义View</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://songning.me/source/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://songning.me/2016/11/09/mvp-rxjava-retrofit/</loc>
+    <lastmod>2017-04-02T03:33:40.000Z</lastmod>
+    <data>
+        <display>
+        <title>优雅的使用MVP+RxJava+Retrofit框架</title>
+        <pubTime>2016-11-09T08:34:09.000Z</pubTime>
+        
+        <tag>MVP</tag>
+         
+        <tag>RxJava</tag>
+         
+        <tag>Retrofit</tag>
+         
+        <tag>框架</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://songning.me/source/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://songning.me/2016/11/03/google-rxjava-mvp/</loc>
+    <lastmod>2016-11-10T08:00:08.000Z</lastmod>
+    <data>
+        <display>
+        <title>Google官方MVP框架源码解读</title>
+        <pubTime>2016-11-03T07:54:41.000Z</pubTime>
+        
+        <tag>MVP</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://songning.me/source/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://songning.me/2016/10/29/singleton-pattern/</loc>
+    <lastmod>2016-10-30T07:11:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java设计模式 - 单例模式</title>
+        <pubTime>2016-10-29T09:19:04.000Z</pubTime>
+        
+        <tag>基础</tag>
+         
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://songning.me/source/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+</urlset>
